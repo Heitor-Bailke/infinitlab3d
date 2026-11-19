@@ -2576,6 +2576,12 @@ h2 {
     min-height: 11rem;
   }
 
+  .reason--5 {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-self: stretch;
+  }
+
 }
 
 .closing-section {
