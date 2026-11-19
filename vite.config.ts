@@ -46,7 +46,7 @@ const includeRootCanecaPhoto: Plugin = {
 };
 
 export default defineConfig({
-  base: "/infinitylab.3d/",
+  base: "/infinitlab3d/",
   plugins: [react(), contentMetadata, includeRootCanecaPhoto],
   test: {
     include: ["src/**/*.test.{ts,tsx}"],
