@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   Check,
@@ -255,6 +256,40 @@ function ProcessSection() {
 }
 
 function ProductsSection() {
+  const railRef = useRef<HTMLDivElement>(null);
+  const [canScrollBack, setCanScrollBack] = useState(false);
+  const [canScrollForward, setCanScrollForward] = useState(true);
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+
+    const updateControls = () => {
+      setCanScrollBack(rail.scrollLeft > 2);
+      setCanScrollForward(rail.scrollLeft + rail.clientWidth < rail.scrollWidth - 2);
+    };
+
+    updateControls();
+    rail.addEventListener("scroll", updateControls, { passive: true });
+    const resizeObserver = new ResizeObserver(updateControls);
+    resizeObserver.observe(rail);
+    if (rail.firstElementChild) resizeObserver.observe(rail.firstElementChild);
+
+    return () => {
+      rail.removeEventListener("scroll", updateControls);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  const moveRail = (direction: -1 | 1) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollBy({
+      left: direction * rail.clientWidth * 0.8,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    });
+  };
+
   return (
     <section className="products-section section-pad" id="pecas" aria-labelledby="products-title">
       <div className="page-container">
@@ -266,7 +301,7 @@ function ProductsSection() {
           <p>{pageContent.products.intro}</p>
         </div>
 
-        <div className="product-rail" data-product-rail role="region" aria-label={pageContent.products.panelsLabel} tabIndex={0}>
+        <div ref={railRef} className="product-rail" data-product-rail role="region" aria-label={pageContent.products.panelsLabel} tabIndex={0}>
           <div className="product-mosaic" data-product-track>
             {pageContent.products.items.map((product, index) => (
               <article className={`product-tile product-tile--${index + 1}`} key={product.name}>
@@ -288,6 +323,14 @@ function ProductsSection() {
               </article>
             ))}
           </div>
+        </div>
+        <div className="product-rail-controls" role="group" aria-label="Controles da galeria de produtos">
+          <button className="product-rail-control" type="button" aria-label="Ver produtos anteriores" onClick={() => moveRail(-1)} disabled={!canScrollBack}>
+            <ArrowLeft size={18} strokeWidth={1.6} aria-hidden="true" />
+          </button>
+          <button className="product-rail-control" type="button" aria-label="Ver próximos produtos" onClick={() => moveRail(1)} disabled={!canScrollForward}>
+            <ArrowRight size={18} strokeWidth={1.6} aria-hidden="true" />
+          </button>
         </div>
       </div>
     </section>
