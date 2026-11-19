@@ -1,0 +1,48 @@
+:root {
+  color-scheme: dark;
+
+  /* Paleta principal fornecida no briefing. */
+  --color-ink: #040a1c;
+  --color-surface: #0a1633;
+  --color-royal: #1e5bff;
+  --color-electric: #4c8dff;
+  --color-sunset: #ff7897;
+  --color-coral: #ffb07a;
+  --color-lagoon: #5ee5dc;
+  --color-plum: #23152f;
+  --color-paper: #e8eeff;
+  --color-muted: #8a97b8;
+
+  /* Reservadas para a coleção de Natal. */
+  --color-natal-red: #d62839;
+  --color-natal-gold: #e5a823;
+
+  --font-display: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Unidade base de 8 px; espaçamentos derivados mantêm a escala. */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-12: 6rem;
+  --space-16: 8rem;
+
+  --content-max: 90rem;
+  --grid-columns: 12;
+  --grid-gutter: 1.5rem;
+  --section-space: var(--space-16);
+  --line-subtle: rgb(232 238 255 / 14%);
+  --line-sunset: rgb(255 120 151 / 28%);
+  --focus-ring: 0 0 0 3px var(--color-ink), 0 0 0 5px var(--color-electric);
+}
+
+@media (max-width: 48rem) {
+  :root {
+    --section-space: var(--space-12);
+    --grid-gutter: 1rem;
+  }
+}
